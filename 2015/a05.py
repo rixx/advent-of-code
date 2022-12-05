@@ -16,6 +16,16 @@ def is_nice(s):
     return True
 
 
+def is_nice_new(s):
+    letters_twice = r"((\w{2})).*\1"
+    letter_between = r"(.).\1"
+    if not re.search(letters_twice, s):
+        return False
+    if not re.search(letter_between, s, flags=re.DOTALL):
+        return False
+    return True
+
+
 def parse_data():
     with open(Path(__file__).stem + ".txt") as fp:
         data = fp.readlines()
@@ -33,8 +43,17 @@ def main_a():
 
 def main_b():
     data = parse_data()
+    nice = 0
+    assert is_nice_new("qjhvhtzxzqqjkmpb")
+    assert is_nice_new("xxyxx")
+    assert not is_nice_new("uurcxstgmygtbstg")
+    assert not is_nice_new("ieodomkazucvgmuy")
+    for line in data:
+        if is_nice_new(line):
+            nice += 1
+    print(nice)
 
 
 if __name__ == "__main__":
-    main_a()
-    # main_b()
+    # main_a()
+    main_b()
