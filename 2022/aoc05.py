@@ -8,10 +8,14 @@ class Stack:
     def __init__(self, items):
         self.stack = list(reversed([i for i in items if i.strip()]))
 
-    def remove(self, n):
+    def remove(self, n, model=9000):
         result = []
-        for _ in range(n):
-            result.append(self.stack.pop(-1))
+        if model == 9000:
+            for _ in range(n):
+                result.append(self.stack.pop(-1))
+        elif model == 9001:
+            result = self.stack[-n:]
+            self.stack = self.stack[:-n]
         return result
 
     def add(self, stack):
@@ -62,9 +66,16 @@ def main_a():
 
 
 def main_b():
-    data = parse_data()
+    stacks, moves = parse_data()
+    for move in moves:
+        move = move.split(" ")
+        stacks[int(move[5]) - 1].add(
+            stacks[int(move[3]) - 1].remove(int(move[1]), model=9001)
+        )
+    for stack in stacks:
+        print(stack.stack[-1], end="")
 
 
 if __name__ == "__main__":
-    main_a()
-    # main_b()
+    # main_a()
+    main_b()
