@@ -7,16 +7,17 @@ def parse_data():
     return data
 
 
-def main_a():
-    data = parse_data()
+def main_a(data):
+    pass
 
 
-def main_b():
-    data = parse_data()
+def main_b(data):
+    pass
 
 
 if __name__ == "__main__":
+    data = parse_data()
     print("##### Part 1 #####")
-    main_a()
+    main_a(data)
     print("\n##### Part 2 #####")
-    main_b()
+    main_b(data)
