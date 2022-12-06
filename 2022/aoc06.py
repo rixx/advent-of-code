@@ -15,16 +15,14 @@ def parse_data():
 
 def main_a():
     data = parse_data()
-    start = find_start("mjqjpqmgbljsphdztnvjfqwrcgsmlb")
-    print(start)
-    start = find_start(data)
-    print(start)
+    print(find_start(data))
 
 
 def main_b():
     data = parse_data()
+    print(find_start(data, offset=14))
 
 
 if __name__ == "__main__":
-    main_a()
-    # main_b()
+    # main_a()
+    main_b()
