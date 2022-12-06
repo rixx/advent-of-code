@@ -16,5 +16,7 @@ def main_b():
 
 
 if __name__ == "__main__":
+    print("##### Part 1 #####")
     main_a()
-    # main_b()
+    print("\n##### Part 2 #####")
+    main_b()
