@@ -81,7 +81,15 @@ def main_a(data):
 
 
 def main_b(data):
-    pass
+    tree, _ = build_file_tree(data)
+    total_size = tree.size
+    min_size = tree.size - (70000000 - 30000000)
+    result = 1000000000
+    for directory in tree.traverse():
+        size = directory.size
+        if size >= min_size and size < result:
+            result = size
+    print(result)
 
 
 if __name__ == "__main__":
