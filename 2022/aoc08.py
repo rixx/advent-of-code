@@ -48,8 +48,38 @@ def main_a(data):
     print(count_visible(forest))
 
 
+def generate_sequence(forest, x, y):
+    yield forest[x][y + 1 :]
+    yield forest[x][:y][::-1]
+    column = [line[y] for line in forest]
+    yield column[x + 1 :]
+    yield column[:x][::-1]
+
+
+def calculate_score(forest, x, y):
+    total = 1
+    own_height = forest[x][y]["height"]
+    for sequence in generate_sequence(forest, x, y):
+        if not sequence:
+            return 0
+        current_score = 0
+        for entry in sequence:
+            current_score += 1
+            if entry["height"] >= own_height:
+                break
+        total *= current_score
+    return total
+
+
 def main_b(data):
-    pass
+    forest = get_forest(data)
+    max_score = 0
+    for x in range(len(forest)):
+        for y in range(len(forest[0])):
+            score = calculate_score(forest, x, y)
+            if score > max_score:
+                max_score = score
+    print(max_score)
 
 
 if __name__ == "__main__":
