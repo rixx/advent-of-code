@@ -42,12 +42,14 @@ def main_a(data):
 
 
 def main_b(data):
-    pass
+    data["b"] = "3176"
+    print(evaluate("a", data))
 
 
 if __name__ == "__main__":
     data = parse_data()
     print("##### Part 1 #####")
     main_a(data)
+    data = parse_data()
     print("\n##### Part 2 #####")
     main_b(data)
