@@ -62,7 +62,19 @@ def main_a(data):
 
 
 def main_b(data):
-    pass
+    head = Obj(0, 0)
+    tail = [Obj(0, 0) for _ in range(9)]
+    known_positions = set()
+    for line in data:
+        direction, amount = line.strip().split()
+        move = MOVES[direction]
+        for _ in range(int(amount)):
+            head.move(*move)
+            tail[0].move_towards(head)
+            for index in range(8):
+                tail[index + 1].move_towards(tail[index])
+            known_positions.add(tail[-1].position)
+    print(len(known_positions))
 
 
 if __name__ == "__main__":
