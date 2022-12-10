@@ -1,4 +1,5 @@
 from pathlib import Path
+import textwrap
 
 
 def parse_data():
@@ -18,7 +19,7 @@ class Computer:
     def feed(self, instructions):
         self.instructions += instructions
 
-    def run(self):
+    def run(self, draw_output=False):
         try:
             instruction = self.instructions[self.current_index]
         except IndexError:
@@ -37,7 +38,11 @@ class Computer:
             else:
                 self.current_wait += 1
         self.cycle += 1
-        return result
+        if not draw_output:
+            return result
+        if -1 <= (result % 40) - ((self.cycle - 1) % 40) <= 1:
+            return "#"
+        return "."
 
     def run_many(self, n):
         for _ in range(n):
@@ -55,7 +60,17 @@ def main_a(data):
 
 
 def main_b(data):
-    pass
+    c = Computer()
+    c.feed(data)
+    screen = []
+    while True:
+        result = c.run(draw_output=True)
+        if not result:
+            break
+        screen.append(result)
+
+    for line in textwrap.wrap("".join(screen), 40):
+        print(line)
 
 
 if __name__ == "__main__":
