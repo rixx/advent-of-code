@@ -1,5 +1,6 @@
 import copy
 import json
+from functools import cmp_to_key
 from pathlib import Path
 
 
@@ -10,6 +11,17 @@ def parse_data():
     for pair in data:
         first, second = pair.strip().split("\n")
         result.append((json.loads(first), json.loads(second)))
+    return result
+
+
+def parse_data_2():
+    with open(Path(__file__).stem + ".txt") as fp:
+        data = fp.readlines()
+    result = []
+    for line in data:
+        if not line.strip():
+            continue
+        result.append(json.loads(line))
     return result
 
 
@@ -49,13 +61,25 @@ def main_a(data):
     print(result)
 
 
+def cmp_order(left, right):
+    if has_correct_order(left, right):
+        return -1
+    return 1
+
+
 def main_b(data):
-    pass
+    div_0 = [[2]]
+    div_1 = [[6]]
+    data += [div_0, div_1]
+    result = sorted(data, key=cmp_to_key(cmp_order))
+    key = (result.index(div_0) + 1) * (result.index(div_1) + 1)
+    print(key)
 
 
 if __name__ == "__main__":
     data = parse_data()
     print("##### Part 1 #####")
     main_a(data)
+    data = parse_data_2()
     print("\n##### Part 2 #####")
     main_b(data)
