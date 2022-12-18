@@ -1,5 +1,5 @@
 from pathlib import Path
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 from tqdm import tqdm
 
@@ -91,18 +91,35 @@ class Map:
 
 def main_a(data):
     chart = Map(data, row=2000000)
-    # chart = Map(data, row=10)
     print(chart.count_row())
-    # chart.print()
 
 
 def main_b(data):
-    pass
+    search = 4000000
+    # search = 20
+    counter = Counter()
+    for sensor, beacon in data:
+        distance = abs(sensor[0] - beacon[0]) + abs(sensor[1] - beacon[1])
+        outside = distance + 1
+        for x in tqdm(range(outside + 1)):
+            y = outside - x  # WARNING off by one
+            for coords in [
+                (sensor[0] + x, sensor[1] - y),
+                (sensor[0] + x, sensor[1] + y),
+                (sensor[0] - x, sensor[1] - y),
+                (sensor[0] - x, sensor[1] + y),
+            ]:
+                if (0 <= coords[0] <= search) and (0 <= coords[1] <= search):
+                    counter.update([coords])
+        print(len(counter.keys()))
+    result, _ = counter.most_common(1)[0]
+    print(result)
+    print(result[0] * 4000000 + result[1])
 
 
 if __name__ == "__main__":
     data = parse_data()
     print("##### Part 1 #####")
-    main_a(data)
+    # main_a(data)
     print("\n##### Part 2 #####")
     main_b(data)
